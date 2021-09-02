@@ -14,7 +14,7 @@ class Downloader:
     def download(self, filename):
         remote_url = f'https://aws-tc-largeobjects.s3.dualstack.us-west-2.amazonaws.com/{filename}'
         response = self.session.get(remote_url)
-        r esponse.raise_for_status()
+        response.raise_for_status()
         output_file = Path(os.path.join(self.outdir, filename))
         output_file.parent.mkdir(exist_ok=True, parents=True)
         output_file.write_bytes(response.content)
@@ -56,11 +56,8 @@ def download_files(url, outdir, start_after=None):
 
 if __name__ =="__main__":
     url = 'https://aws-tc-largeobjects.s3.dualstack.us-west-2.amazonaws.com?list-type=2'
-    while True:
-        try:
-            download_files(url, 'output/multiprocess/')
-        except ConnectionError as e:
-            download_files(url, 'output/multiprocess/', e.__str__().split())
+    # download_files(url, 'output/multiprocess/')
+    download_files(url, 'output/multiprocess/', "AWS-200-BIG/lab-6-spark/misc")
 
 
 
